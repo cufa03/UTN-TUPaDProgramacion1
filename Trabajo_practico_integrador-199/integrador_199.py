@@ -3,6 +3,7 @@
 # --------------------------------------------------------------------
 # Validación
 # --------------------------------------------------------------------
+
 def pedir_int(mensaje: str, permitir_vacio: bool = False):
   while True:
     valor = input(mensaje).strip()
@@ -161,8 +162,17 @@ def menu_orden():
   print("2) Por población")
   print("3) Por superficie")
   opcionInput = input("Opción: ").strip()
-  sentidoInput = input("Ascendente (A) o Descendente (D): ").strip().lower()
-  sentidoOrden = (sentidoInput != "d")
+  while opcionInput not in ("1", "2", "3"):
+    print_error("Opción inválida. Vuelva a intentarlo...")
+    opcionInput = input("Opción: ").strip() 
+  while True:
+    sentidoInput = input("Ascendente (A) o Descendente (D): ").strip().lower()
+    sentidoOrden = (sentidoInput != "d") # True = Ascendente, False = Descendente
+    if sentidoInput in ("a", "d"):
+      break
+    else:
+      print_error("Opción inválida. Vuelva a intentarlo...")
+      continue
   return opcionInput, sentidoOrden
 
 # ---------------------------------------------------------------------
@@ -179,7 +189,9 @@ def main():
     while True: # Bucle principal del menú persistente.
       opcion = menu_principal()
       if opcion == "1":
-        inputNombre = input("Nombre (parcial o exacto): ")
+        print("Puede ingresar el nombre completo o parcial del país.")
+        print("O presione enter para ver la lista compelta.")
+        inputNombre = input("Nombre país: ")
         res = buscar_por_nombre(actuales, inputNombre)
         mostrar_paises(res)
       elif opcion == "2":
@@ -199,7 +211,7 @@ def main():
           res = filtrar_por_superficie(actuales, mn, mx)
           mostrar_paises(res)
         else:
-          print_error()
+          print_error("\nOpción inválida. Volviendo al menu principal...")
       elif opcion == "3":
         opcionOrden, sentidoOrden = menu_orden()
         if opcionOrden == "1":
@@ -209,7 +221,7 @@ def main():
         elif opcionOrden == "3":
           actuales = ordenar_por_superficie(actuales, sentidoOrden)
         else:
-          print_error()
+          print_error("\nOpción inválida. Volviendo al menu principal...")
           continue
         mostrar_paises(actuales)
       elif opcion == "4":
