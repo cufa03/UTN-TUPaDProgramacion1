@@ -4,7 +4,7 @@
 # Validación
 # --------------------------------------------------------------------
 
-from pathlib import Path
+from pathlib import Path # Para resolver rutas relativas al script. Debido a que en pruebas locales no siempre funciona bien.
 import os
 
 def pedir_int(mensaje: str, permitir_vacio: bool = False):
